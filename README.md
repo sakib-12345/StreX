@@ -25,18 +25,6 @@ This repository includes the official **StreX brand logo**, designed to match th
 - High readability in dark mode environments
 - Scalable for UI, favicon, and branding use
 
-## 📁 Files
-
-- `strex-logo.png` → Official StreX brand logo (dark UI optimized)
-
-## 🚀 Usage
-
-You can use the logo in:
-- Web apps
-- IPTV dashboards
-- Mobile apps
-- Branding projects
-- UI headers and splash screens
 
 ## 📌 Tech Style
 
