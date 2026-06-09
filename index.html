@@ -58,9 +58,9 @@
   --font-mono:  'JetBrains Mono', monospace;
   --titlebar-h: 38px;
 }
-
+ 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
 html, body {
   height: 100%;
   background: var(--bg);
@@ -69,25 +69,36 @@ html, body {
   font-size: 14px;
   overflow: hidden;
 }
-
-@media (max-width: 768px) {
-
-  .desktop {
-    width: 100vw;
-    height: 100dvh;
-    align-items: stretch;
-    justify-content: flex-start;
-  }
-
-  .window {
-    width: 100vw;
-    height: 100dvh;
-    max-width: 100vw;
-    max-height: 100dvh;
-    border-radius: 0;
-  }
+ 
+/* ── OS Desktop ── */
+.desktop {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse 60% 40% at 30% 60%, rgba(124,106,247,.08) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 75% 20%, rgba(167,139,250,.06) 0%, transparent 70%),
+    var(--bg);
 }
-
+ 
+/* ── Window Chrome ── */
+.window {
+  width: min(1180px, 98vw);
+  height: min(780px, 97vh);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.03),
+    0 32px 80px rgba(0,0,0,.7),
+    0 0 60px var(--accent-glow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+ 
 .titlebar {
   height: var(--titlebar-h);
   background: var(--surface2);
@@ -99,7 +110,7 @@ html, body {
   flex-shrink: 0;
   user-select: none;
 }
-
+ 
 .traffic-lights {
   display: flex;
   gap: 6px;
@@ -111,7 +122,7 @@ html, body {
 .tl-close  { background: #ff5f57; }
 .tl-min    { background: #febc2e; }
 .tl-max    { background: #28c840; }
-
+ 
 .titlebar-label {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -120,9 +131,9 @@ html, body {
   letter-spacing: .04em;
 }
 .titlebar-label span { color: var(--accent2); }
-
+ 
 .titlebar-spacer { flex: 1; }
-
+ 
 /* ── Status Pill ── */
 .status-pill {
   font-family: var(--font-mono);
@@ -134,7 +145,7 @@ html, body {
   color: var(--accent2);
   letter-spacing: .06em;
 }
-
+ 
 /* ── Main Layout ── */
 .body {
   flex: 1;
@@ -142,7 +153,7 @@ html, body {
   grid-template-columns: 220px 1fr;
   min-height: 0;
 }
-
+ 
 /* ── Sidebar ── */
 .sidebar {
   border-right: 1px solid var(--border);
@@ -150,7 +161,7 @@ html, body {
   flex-direction: column;
   overflow: hidden;
 }
-
+ 
 .sidebar-header {
   padding: 14px 14px 10px;
   font-size: 10px;
@@ -161,17 +172,17 @@ html, body {
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
-
+ 
 .categories {
   flex: 1;
   overflow-y: auto;
   padding: 8px 6px;
 }
-
+ 
 .categories::-webkit-scrollbar { width: 4px; }
 .categories::-webkit-scrollbar-track { background: transparent; }
 .categories::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 4px; }
-
+ 
 .cat-btn {
   display: flex;
   align-items: center;
@@ -202,7 +213,7 @@ html, body {
   transition: background .15s;
 }
 .cat-btn.active .cat-dot { background: var(--accent); }
-
+ 
 /* ── Main content ── */
 .main {
   display: flex;
@@ -210,7 +221,7 @@ html, body {
   min-height: 0;
   overflow: hidden;
 }
-
+ 
 /* ── Player ── */
 .player-area {
   flex-shrink: 0;
@@ -218,7 +229,7 @@ html, body {
   border-bottom: 1px solid var(--border);
   position: relative;
 }
-
+ 
 video {
   display: block;
   width: 100%;
@@ -226,7 +237,7 @@ video {
   background: #000;
   object-fit: contain;
 }
-
+ 
 .player-overlay {
   position: absolute;
   inset: 0;
@@ -238,7 +249,7 @@ video {
   transition: opacity .2s;
 }
 .player-overlay.visible { opacity: 1; }
-
+ 
 .no-stream-msg {
   font-family: var(--font-mono);
   font-size: 12px;
@@ -252,7 +263,7 @@ video {
   opacity: .15;
   margin-bottom: 6px;
 }
-
+ 
 /* ── Toolbar ── */
 .toolbar {
   display: flex;
@@ -261,7 +272,7 @@ video {
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
-
+ 
 .search-wrap {
   flex: 1;
   position: relative;
@@ -289,7 +300,7 @@ video {
 }
 .search-input::placeholder { color: var(--text-dimmer); }
 .search-input:focus { border-color: rgba(124,106,247,.5); }
-
+ 
 .custom-url-input {
   flex: 1.4;
   padding: 8px 10px;
@@ -304,7 +315,7 @@ video {
 }
 .custom-url-input::placeholder { color: var(--text-dimmer); }
 .custom-url-input:focus { border-color: rgba(124,106,247,.5); }
-
+ 
 .load-btn {
   padding: 8px 14px;
   background: var(--accent);
@@ -319,7 +330,7 @@ video {
   transition: opacity .15s;
 }
 .load-btn:hover { opacity: .85; }
-
+ 
 /* ── Channel Grid ── */
 .channels-header {
   padding: 10px 14px 6px;
@@ -340,7 +351,7 @@ video {
   font-size: 10px;
   color: var(--accent2);
 }
-
+ 
 .channels-scroll {
   flex: 1;
   overflow-y: auto;
@@ -349,13 +360,13 @@ video {
 .channels-scroll::-webkit-scrollbar { width: 4px; }
 .channels-scroll::-webkit-scrollbar-track { background: transparent; }
 .channels-scroll::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 4px; }
-
+ 
 .channels-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   gap: 8px;
 }
-
+ 
 .channel-card {
   background: var(--surface2);
   border: 1px solid var(--border);
@@ -376,7 +387,7 @@ video {
   background: rgba(124,106,247,.12);
   border-color: rgba(124,106,247,.6);
 }
-
+ 
 .ch-name {
   font-size: 12px;
   font-weight: 600;
@@ -391,7 +402,7 @@ video {
   color: var(--text-dimmer);
 }
 .channel-card.playing .ch-sub { color: var(--accent2); }
-
+ 
 /* ── State messages ── */
 .state-msg {
   padding: 40px 20px;
@@ -401,7 +412,7 @@ video {
   color: var(--text-dimmer);
   line-height: 2;
 }
-
+ 
 /* ── Now Playing bar ── */
 .now-playing {
   height: 30px;
@@ -437,132 +448,6 @@ video {
   white-space: nowrap;
 }
 .np-text span { color: var(--text); font-weight: 500; }
-
-/* ───────── MOBILE OPTIMIZATION ───────── */
-@media (max-width: 768px) {
-
-  html, body {
-    overflow: auto;
-    font-size: 13px;
-  }
-
-  .desktop {
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding: 0;
-  }
-
-  .window {
-    width: 100vw;
-    height: 100vh;
-    border-radius: 0;
-  }
-
-  /* hide fake OS vibes on mobile */
-  .traffic-lights {
-    display: none;
-  }
-
-  .titlebar {
-    height: 44px;
-    padding: 0 10px;
-  }
-
-  .titlebar-label {
-    font-size: 10px;
-  }
-
-  /* STACK layout instead of 2 columns */
-  .body {
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Sidebar becomes horizontal scroll bar */
-  .sidebar {
-    flex-direction: row;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-    overflow-x: auto;
-    overflow-y: hidden;
-  }
-
-  .sidebar-header {
-    display: none;
-  }
-
-  .categories {
-    display: flex;
-    flex-direction: row;
-    gap: 6px;
-    padding: 8px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-  }
-
-  .cat-btn {
-    flex: 0 0 auto;
-    font-size: 11px;
-    padding: 6px 10px;
-  }
-
-  /* Player becomes taller */
-  video {
-    height: 200px;
-  }
-
-  /* Toolbar stacks */
-  .toolbar {
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .custom-url-input,
-  .search-wrap {
-    width: 100%;
-    flex: unset;
-  }
-
-  .load-btn {
-    width: 100%;
-  }
-
-  /* Channel grid becomes 2 columns */
-  .channels-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 6px;
-  }
-
-  .channel-card {
-    padding: 8px;
-  }
-
-  .ch-name {
-    font-size: 11px;
-  }
-
-  /* Now playing smaller */
-  .now-playing {
-    height: 36px;
-    font-size: 10px;
-  }
-
-  /* Footer wrap fix */
-  footer {
-    flex-direction: column;
-    gap: 6px;
-    text-align: center;
-    height: auto;
-  }
-}
-video {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  height: auto;
-  background: black;
-  object-fit: contain;
-}
 </style>
 </head>
 <body>
