@@ -2,6 +2,8 @@
 
 A modern, next-gen streaming platform built for smooth, fast, and intelligent IPTV experience.
 
+Live Url: [here](https://strex-rouge.vercel.app/)
+
 <p align="center">
   <img src="page_icon.png" width="600"/>
 </p>
