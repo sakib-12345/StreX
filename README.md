@@ -15,19 +15,7 @@ It focuses on clean UX, fast channel navigation, and a modern cyber-tech aesthet
 
 This repository includes the official **StreX brand logo**, designed to match the dark neon UI system of the platform.
 
-## 🎨 Logo
 
-The StreX logo represents:
-- A minimal **X-based identity mark**
-- Neon purple gradient theme
-- Dark OS-inspired visual style
-- Modern streaming/tech branding
-
-It is designed to fit perfectly in:
-- IPTV desktop UI
-- Streaming dashboards
-- AI OS-style interfaces
-- Web apps & media platforms
 
 ## 🧠 Design Philosophy
 
