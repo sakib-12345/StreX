@@ -1,7 +1,7 @@
 # StreX
 
 A modern, next-gen streaming platform built for smooth, fast, and intelligent IPTV experience.
-<img src="web_icon.png" alt="StreX Logo" width="70%"/>
+<img src="page_icon.png" alt="StreX Logo" width="70%"/>
 ## 🔥 Overview
 
 **StreX** is a futuristic streaming platform UI designed with a desktop OS-style interface.  
