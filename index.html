@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <title>StreX — A Real-Time Streaming Platform</title>
    <link rel="icon" type="image/png" href="./icon.png">
   <link rel="shortcut icon" href="./icon.png">
@@ -448,6 +448,132 @@ video {
   white-space: nowrap;
 }
 .np-text span { color: var(--text); font-weight: 500; }
+
+/* ───────── MOBILE OPTIMIZATION ───────── */
+@media (max-width: 768px) {
+
+  html, body {
+    overflow: auto;
+    font-size: 13px;
+  }
+
+  .desktop {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .window {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  /* hide fake OS vibes on mobile */
+  .traffic-lights {
+    display: none;
+  }
+
+  .titlebar {
+    height: 44px;
+    padding: 0 10px;
+  }
+
+  .titlebar-label {
+    font-size: 10px;
+  }
+
+  /* STACK layout instead of 2 columns */
+  .body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Sidebar becomes horizontal scroll bar */
+  .sidebar {
+    flex-direction: row;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .sidebar-header {
+    display: none;
+  }
+
+  .categories {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    padding: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+  }
+
+  .cat-btn {
+    flex: 0 0 auto;
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
+  /* Player becomes taller */
+  video {
+    height: 200px;
+  }
+
+  /* Toolbar stacks */
+  .toolbar {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .custom-url-input,
+  .search-wrap {
+    width: 100%;
+    flex: unset;
+  }
+
+  .load-btn {
+    width: 100%;
+  }
+
+  /* Channel grid becomes 2 columns */
+  .channels-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .channel-card {
+    padding: 8px;
+  }
+
+  .ch-name {
+    font-size: 11px;
+  }
+
+  /* Now playing smaller */
+  .now-playing {
+    height: 36px;
+    font-size: 10px;
+  }
+
+  /* Footer wrap fix */
+  footer {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+    height: auto;
+  }
+}
+video {
+  height: 220px;
+}
+   video {
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
 </style>
 </head>
 <body>
