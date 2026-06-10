@@ -448,6 +448,93 @@ video {
   white-space: nowrap;
 }
 .np-text span { color: var(--text); font-weight: 500; }
+
+/* ── Mobile Category Drawer ── */
+.mobile-cat-toggle {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent2);
+  flex-shrink: 0;
+  user-select: none;
+}
+.mobile-cat-toggle .toggle-icon { font-size: 14px; transition: transform .2s; }
+.mobile-cat-toggle.open .toggle-icon { transform: rotate(90deg); }
+
+.mobile-sidebar-drawer {
+  display: none;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .25s ease;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.mobile-sidebar-drawer.open { max-height: 220px; overflow-y: auto; }
+.mobile-sidebar-drawer .categories { padding: 6px; }
+
+/* ── Mobile Responsive ── */
+@media (max-width: 640px) {
+  html, body { overflow: hidden; }
+
+  .desktop {
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  .window {
+    width: 100vw;
+    height: 100%;
+    height: 100dvh;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  /* Hide desktop sidebar */
+  .body {
+    grid-template-columns: 1fr;
+  }
+  .sidebar { display: none; }
+
+  /* Show mobile category toggle */
+  .mobile-cat-toggle { display: flex; }
+  .mobile-sidebar-drawer { display: block; }
+
+  video {
+    height: 210px;
+  }
+
+  /* Toolbar: stack URL input below search on mobile */
+  .toolbar {
+    flex-wrap: wrap;
+    padding: 8px 10px;
+    gap: 6px;
+  }
+  .search-wrap { flex: 1 1 100%; }
+  .custom-url-input { flex: 1 1 0; min-width: 0; font-size: 10px; }
+  .load-btn { padding: 8px 10px; font-size: 11px; }
+
+  .channels-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .titlebar-label { font-size: 10px; }
+
+  /* Footer: tighten on mobile */
+  footer {
+    padding: 8px 10px !important;
+    font-size: 9px !important;
+    flex-wrap: wrap;
+    height: auto !important;
+    gap: 4px;
+  }
+}
 </style>
 </head>
 <body>
@@ -467,10 +554,19 @@ video {
       <div class="status-pill" id="statusPill">IDLE</div>
     </div>
 
+    <!-- Mobile category toggle (only visible on mobile) -->
+    <div class="mobile-cat-toggle" id="mobileCatToggle" onclick="toggleMobileSidebar()">
+      <span class="toggle-icon">▶</span>
+      <span id="mobileCatLabel">Categories</span>
+    </div>
+    <div class="mobile-sidebar-drawer" id="mobileSidebarDrawer">
+      <div class="categories" id="categoriesMobile"></div>
+    </div>
+
     <!-- Body -->
     <div class="body">
 
-      <!-- Sidebar -->
+      <!-- Sidebar (desktop) -->
       <div class="sidebar">
         <div class="sidebar-header">Categories</div>
         <div class="categories" id="categories"></div>
@@ -481,7 +577,7 @@ video {
 
         <!-- Player -->
         <div class="player-area">
-          <video id="video" controls autoplay></video>
+          <video id="video" controls autoplay playsinline></video>
           <div class="player-overlay visible" id="playerOverlay">
             <div class="no-stream-msg">
               <strong>▶</strong>
@@ -631,20 +727,50 @@ const categories = {
   "Undefined":   "https://iptv-org.github.io/iptv/categories/undefined.m3u"
 };
 
-// Build sidebar
-const catsDiv = document.getElementById('categories');
-Object.entries(categories).forEach(([name, url]) => {
+// Build sidebar (desktop + mobile)
+const catsDiv       = document.getElementById('categories');
+const catsMobileDiv = document.getElementById('categoriesMobile');
+
+function makeCatBtn(name, url, container) {
   const btn = document.createElement('button');
   btn.className = 'cat-btn';
   btn.innerHTML = `<span class="cat-dot"></span>${name}`;
   btn.onclick = () => {
-    if (activeCatBtn) activeCatBtn.classList.remove('active');
-    btn.classList.add('active');
+    // Deactivate all buttons in both sidebars
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    // Activate matching buttons in both sidebars
+    document.querySelectorAll('.cat-btn').forEach(b => {
+      if (b.textContent.trim() === name) b.classList.add('active');
+    });
     activeCatBtn = btn;
+    // Update mobile label
+    document.getElementById('mobileCatLabel').textContent = name;
+    // Close mobile drawer
+    closeMobileSidebar();
     loadPlaylist(url);
   };
-  catsDiv.appendChild(btn);
+  container.appendChild(btn);
+  return btn;
+}
+
+let firstBdBtn = null;
+Object.entries(categories).forEach(([name, url]) => {
+  const btn  = makeCatBtn(name, url, catsDiv);
+  const btnM = makeCatBtn(name, url, catsMobileDiv);
+  if (name === 'BD Channels' && !firstBdBtn) firstBdBtn = btn;
 });
+
+// Mobile drawer toggle
+function toggleMobileSidebar() {
+  const toggle  = document.getElementById('mobileCatToggle');
+  const drawer  = document.getElementById('mobileSidebarDrawer');
+  toggle.classList.toggle('open');
+  drawer.classList.toggle('open');
+}
+function closeMobileSidebar() {
+  document.getElementById('mobileCatToggle').classList.remove('open');
+  document.getElementById('mobileSidebarDrawer').classList.remove('open');
+}
 
 async function loadPlaylist(url) {
   if (!url) return;
@@ -743,9 +869,8 @@ function setStatus(s) {
   statusPill.style.background = bg || 'rgba(124,106,247,.15)';
 }
 
-// Default load — click News
-const newsBtn = [...catsDiv.querySelectorAll('.cat-btn')].find(b => b.textContent.includes('News'));
-if (newsBtn) newsBtn.click();
+// Default: load BD Channels
+if (firstBdBtn) firstBdBtn.click();
 </script>
 </body>
 </html>
