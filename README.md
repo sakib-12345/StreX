@@ -15,6 +15,8 @@ It focuses on clean UX, fast channel navigation, and a modern cyber-tech aesthet
 
 This repository includes the official **StreX brand logo**, designed to match the dark neon UI system of the platform.
 
+## Channel Credits
+Thanks to [iptv-org/iptv](https://github.com/iptv-org/iptv) for the IPTV playlist.
 
 
 ## 🧠 Design Philosophy
